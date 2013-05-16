@@ -34,9 +34,10 @@ wss.on('connection', function(ws) {
                 if (users[i] != ws){
                     users[i].send(ws.name + " left the chat");
                 } else {
-                    users.splice(i, 1);
+                    var index = i;
                 }
             }
+            users.splice(index, 1);
         }
     });
     ws.send('enter your name');
