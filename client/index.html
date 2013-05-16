@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script type="text/javascript" src="jquery-2.0.0.min.js"></script>
+    <style>
+      body {
+        font-family: Tahoma, Geneva, sans-serif;
+      }
+
+      div {
+        display: inline;
+      }
+    </style>
+    <script>
+
+      var ws = new WebSocket('ws://localhost:8080');
+      var sent_message = false;
+      ws.onmessage = function (event) {
+        var previous = $('#message').html();
+        $('#message').html(previous + '<br />' + event.data);
+      };
+
+      $(document).on('submit', 'form', function(e) {
+        data = $('#input').val();
+        $('#input').val('');
+        if (data) {
+          var previous = $('#message').html();
+          $('#message').html(previous + '<br />' + data);
+          ws.send(data);
+        }
+        e.preventDefault();
+        
+      });
+
+      
+    </script>
+  </head>
+  <body>
+    <div id='message'></div><br>
+    <form id="message-form">
+      <input id="input" type="text" />
+      <input id="submit" type="submit" value="send" />
+    </form>
+  </body>
+</html>
